@@ -1,5 +1,7 @@
 package io.github.oliviercailloux.samples.coffee;
 
+import java.util.Scanner;
+
 /**
  * <p>
  * A <a href=
@@ -16,5 +18,54 @@ package io.github.oliviercailloux.samples.coffee;
  * </p>
  */
 public class DripCoffeeMaker implements CoffeeMachine {
+	private int numberCoffee = 0;
+	private double lastStrength;
+	
+	public double getMaxStrength() {
+		return 10d;
+	}
+	
+	public int getTimeForCoffee(double strength) {
+		if (strength <0 || strength > getMaxStrength()) {
+			throw new IllegalArgumentException("Wrong strength");
+		}
+		if (strength == 0) {
+			return 0;
+		}
+		return 120;
+	}
+	
+	
+	public void produceCoffee (double strength) {
+		if (strength <0 || strength > getMaxStrength()) {
+			throw new IllegalArgumentException("Wrong strength");
+		}
+		numberCoffee += 1;
+		lastStrength = strength;
+	}
+	
+	public int getNumberOfCoffeesProduced() {
+		return numberCoffee;
+	}
+	
+	public double getEnergySpent() {
+		if (numberCoffee == 0) {
+			throw new IllegalStateException("No coffees produced");
+		}
+		if(lastStrength == 0) {
+			return 0;
+		}
+		return 83d;
+	}
+	
+	public static void main(String[] args){
+		DripCoffeeMaker dripMachine = new DripCoffeeMaker();
+		dripMachine.produceCoffee(0.3d);
+		System.out.println(dripMachine.getEnergySpent());
+		dripMachine.produceCoffee(0d);
+		System.out.println(dripMachine.getEnergySpent());
+		System.out.println(dripMachine.getTimeForCoffee(0.8d));
+		System.out.println(dripMachine.getTimeForCoffee(10.2d));
+	}
 
 }
